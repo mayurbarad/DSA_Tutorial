@@ -11,6 +11,7 @@ int main()
         i++;
     }
     cout << "length is " << i;
+    cout << "length is " << i;
 
     return 0;
 }
