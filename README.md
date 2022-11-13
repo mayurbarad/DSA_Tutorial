@@ -3,3 +3,5 @@ DSA Tutorial Questions
 
 *  Recursion
 *  Array
+*  Strings
+*  Matrices
