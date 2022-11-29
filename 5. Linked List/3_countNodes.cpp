@@ -1,5 +1,3 @@
-// USING STRUCTURE
-
 #include <iostream>
 
 using namespace std;
@@ -29,24 +27,31 @@ void create(int A[], int n)
     }
 }
 
-void Display(struct Node *p)
+//  Iterative Way
+
+int count(struct Node *p)
 {
+    int c = 0;
     while (p != NULL)
     {
-        cout << p->data << " ";
+        c++;
         p = p->next;
     }
+    return c;
 }
 
-// Display Using Recursion
+// Recursive Way
 
-void DisplayR(struct Node *p)
+int countR(struct Node *p)
 {
+    int x = 0;
     if (p != NULL)
     {
-        cout << p->data << endl;
-        Display(p->next);
+        x = countR(p->next);
+        return x + 1;
     }
+    else
+        return x;
 }
 
 int main()
@@ -55,6 +60,8 @@ int main()
     int n = sizeof(A) / sizeof(A[0]);
 
     create(A, n);
-    Display(first);
+
+    cout << count(first) << endl;
+    cout << countR(first) << endl;
     return 0;
 }

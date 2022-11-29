@@ -2,116 +2,96 @@
 
 using namespace std;
 
-class Stack
+struct Stack
 {
-public:
     int size;
     int top;
     int *s;
-    void Create();
-    void Display();
-    void Push(int x);
-    int Pop();
-    int Peek(int pos);
-    int isEmpty();
-    int isFull();
-    int StackTop();
 };
 
-void Stack::Create()
-{
-    cout << "Enter Size : ";
-    cin >> size;
-    top = -1;
-    s = new int[size];
-}
-
-void Stack::Display()
+void display(struct Stack st)
 {
     int i;
-    for (i = top; i >= 0; i--)
-        cout << s[i] << endl;
+    for (i = st.top; i >= 0; i--)
+    {
+        cout << st.s[i] << endl;
+    }
 }
 
-void Stack::Push(int x)
+void push(struct Stack *st, int x)
 {
-    if (top == size - 1)
+    if (st->top == st->size - 1)
         cout << "Stack Overflow" << endl;
     else
     {
-        top++;
-        s[top] = x;
+        st->top++;
+        st->s[st->top] = x;
     }
 }
 
-int Stack::Pop()
+int pop(struct Stack *st)
 {
-    int flag = -1;
-    if (top == -1)
-        cout
-            << "Stack Underfow" << endl;
+    int x = -1;
+    if (st->top == -1)
+        cout << "Stack Underflow" << endl;
     else
     {
-        flag = s[top];
-        top--;
+        x = st->s[st->top];
+        st->top--;
     }
-    return flag;
+    return x;
 }
-int Stack::Peek(int pos)
+
+int peek(struct Stack st, int index)
 {
-    int flag = -1;
-    int index = top - pos + 1;
-    if (index < 0)
-        cout << "Invalid Postion";
+    int x = -1;
+    if ((st.top - index + 1) < 0)
+        cout << "Invalid Position" << endl;
     else
-        flag = s[index];
-
-    return flag;
+        x = st.s[st.top - index + 1];
+    return x;
 }
 
-int Stack::isEmpty()
+int isEmpty(struct Stack st)
 {
-    return top == -1; // if true --> return 1
+    if (st.top == -1)
+        return 1;
+    return 0;
 }
 
-int Stack::isFull()
+int isFull(struct Stack st)
 {
-    return top == size - 1;
+    if (st.top == st.size - 1)
+        return 1;
+    return 0;
 }
 
-int Stack::StackTop()
+int stackTop(struct Stack st)
 {
-    if (!isEmpty())
-        return s[top];
-
+    if (!isEmpty(st))
+        return st.s[st.top];
     return -1;
 }
 
 int main()
 {
-    class Stack st;
+    struct Stack st;
+    cout << "Enter Size : ";
+    cin >> st.size;
+    st.s = new int[st.size];
+    st.top = -1;
 
-    st.Create();
+    push(&st, 10);
+    push(&st, 20);
+    push(&st, 30);
+    push(&st, 40);
+    push(&st, 50);
 
-    st.Push(10);
-    st.Push(20);
-    st.Push(30);
-    st.Push(40);
-    st.Push(50);
+    display(st);
 
-    // cout << st.Pop() << endl;
-    // cout << st.Pop() << endl;
-    // cout << st.Pop() << endl;
-    // cout << "After Pop : " << endl;
+    cout << isFull(st);
 
-    cout << st.Peek(3) << endl;
+    cout << pop(&st);
 
-    cout << st.isEmpty() << endl;
-
-    cout << st.isFull() << endl;
-
-    cout << st.StackTop() << endl;
-
-    st.Display();
     return 0;
 }

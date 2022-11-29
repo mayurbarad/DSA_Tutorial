@@ -25,6 +25,7 @@ int main()
     B[0] = new int[4];
     B[1] = new int[4];
     B[2] = new int[4];
+    delete[] B;
 
     // Method (3) --> Inside HEAP Memory
     int **C;
@@ -32,4 +33,5 @@ int main()
     C[0] = new int[4];
     C[1] = new int[4];
     C[2] = new int[4];
+    delete[] C;
 }

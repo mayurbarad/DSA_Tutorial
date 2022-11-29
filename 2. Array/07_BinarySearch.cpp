@@ -51,7 +51,7 @@ int BinSearchR(struct Array r, int l, int h, int key)
         mid = (l + h) / 2;
         if (key == r.A[mid])
             return mid;
-        else if (key <= r.A[mid])
+        else if (key < r.A[mid])
             return BinSearchR(r, l, mid - 1, key);
         else
             return BinSearchR(r, mid + 1, h, key);

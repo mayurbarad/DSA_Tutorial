@@ -2,23 +2,17 @@
 
 using namespace std;
 
-class Node
+struct Node
 {
-public:
     int data;
-    Node *next;
-    void Push(int x);
-    int Pop();
-    int Peek(int pos);
-    int StackTop();
-    int isEmpty();
-    int isFull();
-    void Display();
+    struct Node *next;
 } *top = NULL;
 
-void Node::Push(int x)
+void push(int x)
 {
-    Node *t = new Node;
+    struct Node *t;
+    t = new Node;
+
     if (t == NULL)
         cout << "Stack Overflow" << endl;
     else
@@ -29,62 +23,27 @@ void Node::Push(int x)
     }
 }
 
-int Node::Pop()
+int pop()
 {
-    Node *p;
+    struct Node *p;
     int x = -1;
     if (top == NULL)
-        cout << "Stack Empty" << endl;
+        cout << "Stack Underflow" << endl;
     else
     {
         p = top;
         top = top->next;
         x = p->data;
-        delete p;
+        delete (p);
     }
     return x;
 }
 
-int Node::Peek(int pos)
+void Display()
 {
-    Node *p = top;
-    for (int i = 0; (p != NULL) && (i < pos - 1); i++)
-    {
-        p = p->next;
-    }
-
-    if (p != NULL)
-        return pos - 1;
-    else
-        return -1;
-}
-
-int Node::StackTop()
-{
-    if (top) // --> if top != NULL --> return top->data
-        return top->data;
-    return -1;
-}
-
-int Node::isEmpty()
-{
-    if (top) // if top != NULL --> return 0
-        return 0;
-    return 1;
-}
-
-int Node::isFull()
-{
-    Node *t = new Node;
-    if (t == NULL) // new null not created i.e stack is full
-        return 1;
-    return 0;
-}
-
-void Node::Display()
-{
-    Node *p;
+    struct Node *p;
     p = top;
+
     while (p != NULL)
     {
         cout << p->data << endl;
@@ -94,17 +53,9 @@ void Node::Display()
 
 int main()
 {
-
-    Node n;
-
-    n.Push(10);
-    n.Push(20);
-    n.Push(30);
-
-    n.Display();
-
-    cout << n.Pop() << endl;
-
-    n.Display();
+    push(10);
+    push(20);
+    Display();
+    cout << pop();
     return 0;
 }

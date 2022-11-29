@@ -29,6 +29,17 @@ void create(int A[], int n)
     }
 }
 
+int count(struct Node *p)
+{
+    int c = 0;
+    while (p != NULL)
+    {
+        c++;
+        p = p->next;
+    }
+    return c;
+}
+
 void Display(struct Node *p)
 {
     while (p != NULL)
@@ -38,14 +49,29 @@ void Display(struct Node *p)
     }
 }
 
-// Display Using Recursion
-
-void DisplayR(struct Node *p)
+void insert(struct Node *p, int pos, int x)
 {
-    if (p != NULL)
+    if (pos < 0 || pos > count(p))
+        return;
+
+    struct Node *t;
+    t = new Node;
+    t->data = x;
+
+    if (pos == 0)
     {
-        cout << p->data << endl;
-        Display(p->next);
+        t->next = first;
+        first = t;
+    }
+    else if (pos > 0)
+    {
+        p = first;
+        for (int i = 0; i < pos - 1; i++)
+        {
+            p = p->next;
+        }
+        t->next = p->next;
+        p->next = t;
     }
 }
 
@@ -55,6 +81,9 @@ int main()
     int n = sizeof(A) / sizeof(A[0]);
 
     create(A, n);
+    Display(first);
+    insert(first, 7, 1);
+    cout << endl;
     Display(first);
     return 0;
 }

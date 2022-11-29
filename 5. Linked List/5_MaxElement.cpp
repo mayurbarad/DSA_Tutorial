@@ -1,6 +1,5 @@
-// USING STRUCTURE
-
 #include <iostream>
+#include <climits>
 
 using namespace std;
 
@@ -29,24 +28,35 @@ void create(int A[], int n)
     }
 }
 
-void Display(struct Node *p)
+// Iterative Way
+
+int max(struct Node *p)
 {
+    int m = INT_MIN;
     while (p != NULL)
     {
-        cout << p->data << " ";
+        if (p->data > m)
+        {
+            m = p->data;
+        }
         p = p->next;
     }
+    return m;
 }
 
-// Display Using Recursion
+// Recursive Way
 
-void DisplayR(struct Node *p)
+int maxR(struct Node *p)
 {
-    if (p != NULL)
-    {
-        cout << p->data << endl;
-        Display(p->next);
-    }
+    int x = 0;
+
+    if (p == NULL)
+        return INT_MIN;
+    x = maxR(p->next);
+    if (x > p->data)
+        return x;
+    else
+        return p->data;
 }
 
 int main()
@@ -55,6 +65,9 @@ int main()
     int n = sizeof(A) / sizeof(A[0]);
 
     create(A, n);
-    Display(first);
+
+    cout << max(first) << endl;
+    cout << maxR(first) << endl;
+
     return 0;
 }
