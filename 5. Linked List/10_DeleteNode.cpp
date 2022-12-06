@@ -47,6 +47,54 @@ void insertSorted(struct Node *p, int x)
     }
 }
 
+int count(struct Node *p)
+{
+    int c = 0;
+    while (p != NULL)
+    {
+        c++;
+        p = p->next;
+    }
+    return c;
+}
+
+int deleteNode(struct Node *p, int pos)
+{
+    int x = -1;
+    struct Node *q;
+
+    if (pos < 1 || pos > count(p))
+    {
+        return x;
+    }
+    else
+    {
+        if (pos == 1)
+        {
+            p = first;
+            first = first->next;
+            x = p->data;
+            delete p;
+            return x;
+        }
+        else
+        {
+
+            p = first;
+            q = NULL;
+            for (int i = 0; i < pos - 1; i++)
+            {
+                q = p;
+                p = p->next;
+            }
+            q->next = p->next;
+            x = p->data;
+            delete p;
+            return x;
+        }
+    }
+}
+
 int main()
 {
 
@@ -55,6 +103,10 @@ int main()
     insertSorted(first, 33);
     insertSorted(first, 44);
     insertSorted(first, 55);
+    Display(first);
+    cout << endl;
+    cout << "Deleted Node : " << deleteNode(first, 2);
+    cout << endl;
     Display(first);
     return 0;
 }

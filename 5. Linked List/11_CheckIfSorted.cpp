@@ -1,4 +1,5 @@
 #include <iostream>
+#include <climits>
 
 using namespace std;
 
@@ -47,6 +48,19 @@ void insertSorted(struct Node *p, int x)
     }
 }
 
+int checkSorted(struct Node *p)
+{
+    int x = INT_MIN; // -32768
+    while (p != NULL)
+    {
+        if (p->data < x)
+            return 0;
+        x = p->data;
+        p = p->next;
+    }
+    return 1;
+}
+
 int main()
 {
 
@@ -56,5 +70,8 @@ int main()
     insertSorted(first, 44);
     insertSorted(first, 55);
     Display(first);
+    cout << endl;
+    cout << checkSorted(first);
+
     return 0;
 }
