@@ -1,94 +1,69 @@
-#include <iostream>
-#include <cstring>
+#include <bits/stdc++.h>
 
 using namespace std;
 
-struct Stack
+int prec(char x)
 {
-    int size;
-    int top;
-    int *s;
-};
-
-void Push(struct Stack *st, char x)
-{
-    if (st->top == st->size - 1)
-        cout << "Stack Overflow" << endl;
-    else
-    {
-        st->top++;
-        st->s[st->top] = x;
-    }
-}
-
-char Pop(struct Stack *st)
-{
-    char flag = -1;
-    if (st->top == -1)
-        cout
-            << "Stack Underfow" << endl;
-    else
-    {
-        flag = st->s[st->top];
-        st->top--;
-    }
-    return flag;
-}
-
-int isEmpty(struct Stack st)
-{
-    if (st.top == -1)
-        return 1;
-    return 0;
-}
-
-int isOperand(char x)
-{
-    if (x == '+' || x == '-' || x == '*' || x == '/')
-        return 0;
-    else
-        return 1;
-}
-
-int pre(char x)
-{
-    if (x == '+' || x == '-')
-        return 1;
-    else if (x == '*' || x == '/')
+    if (x == '^')
+        return 3;
+    else if (x == '/' || x == '*')
         return 2;
+    else if (x == '+' || x == '-')
+        return 1;
+    else
+        return -1;
 }
 
-char *infixToPost(char *infix)
+void infixToPostfix(string infix)
 {
-    struct Stack st;
-    int i = 0, j = 0;
-    int l = strlen(infix);
-    char *postfix;
-    postfix = new char[l + 1];
 
-    while (infix[i] != '\0')
+    stack<char> st;
+    string result;
+
+    for (int i = 0; i < infix.length(); i++)
     {
-        if (isOperand(infix[i]))
-            postfix[j++] = infix[i++];
+        char x = infix[i];
+
+        // If the scanned character is
+        // an operand, add it to output string.
+        if ((x >= 'a' && x <= 'z') || (x >= 'A' && x <= 'Z') || (x >= '0' && x <= '9'))
+            result = result + x;
+        else if (x == '(')
+            st.push('(');
+        else if (x == ')')
+        {
+            while (st.top() != '(')
+            {
+                result += st.top();
+                st.pop();
+            }
+            st.pop();
+        }
         else
         {
-            if (pre(infix[i]) > pre(infix[st.top]))
-                Push(&st, infix[i++]);
+            while (!st.empty() && prec(infix[i]) <= prec(st.top()))
+            {
+                result = result + st.top();
+                st.pop();
+            }
+            st.push(x);
         }
     }
-    return postfix;
+
+    // Pop all the remaining elements from the stack
+    while (!st.empty())
+    {
+        result += st.top();
+        st.pop();
+    }
+
+    cout << "Prefix expression: " << result << endl;
 }
 
 int main()
 {
-    struct Stack st;
-    cout << "Size";
-    cin >> st.size;
-    st.s = new int[st.size];
-
-    char *infix = "a+b*c";
-    Push(&st, '#');
-    char *postfix = infixToPost(infix);
-    cout << postfix;
+    string exp = "(p+q)*(m-n)";
+    cout << "Infix expression: " << exp << endl;
+    infixToPostfix(exp);
     return 0;
 }
